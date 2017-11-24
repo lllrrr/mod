@@ -65,8 +65,8 @@ class User extends Model
             $key_match = str_replace("%", "", $key);
             $key_match = str_replace("m", "", $key_match);
             $md5 = substr(MD5($this->attributes['id'].$this->attributes['passwd'].$this->attributes['method'].$this->attributes['obfs'].$this->attributes['protocol']),
-            ($key_match < 0 ? $key_match : 0),
-            abs($key_match));
+                ($key_match < 0 ? $key_match : 0),
+                abs($key_match));
             $str = str_replace($key, $md5, $str);
         }
         return $str;
@@ -225,6 +225,12 @@ class User extends Model
         $total = Ip::where("datetime", ">=", time()-90)->where('userid', $uid)->orderBy('userid', 'desc')->get();
         $unique_ip_list = array();
         foreach ($total as $single_record) {
+            $single_record->ip = Tools::getRealIp($single_record->ip);
+            $is_node = Node::where("node_ip", $single_record->ip)->first();
+            if($is_node) {
+                continue;
+            }
+
             if (!in_array($single_record->ip, $unique_ip_list)) {
                 array_push($unique_ip_list, $single_record->ip);
             }
@@ -278,17 +284,17 @@ class User extends Model
         $im_value = $this->attributes['im_value'];
         switch($this->attributes['im_type']) {
             case 1:
-              $im_type = '微信';
-              break;
+                $im_type = '微信';
+                break;
             case 2:
-              $im_type = 'QQ';
-              break;
+                $im_type = 'QQ';
+                break;
             case 3:
-              $im_type = 'Google+';
-              break;
+                $im_type = 'Google+';
+                break;
             default:
-              $im_type = 'Telegram';
-              $im_value = '<a href="https://telegram.me/'.$im_value.'">'.$im_value.'</a>';
+                $im_type = 'Telegram';
+                $im_value = '<a href="https://telegram.me/'.$im_value.'">'.$im_value.'</a>';
         }
 
         $ref_user = User::find($this->attributes['ref_by']);
@@ -311,21 +317,21 @@ class User extends Model
         $reg_location .= "\n".iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
 
         $return_array = Array('DT_RowId' => 'row_1_'.$id, $id, $id,
-                              $this->attributes['user_name'], $this->attributes['remark'],
-                              $this->attributes['email'], $this->attributes['money'],
-                              $im_type, $im_value,
-                              $this->attributes['node_group'], $account_expire_in,
-                              $this->attributes['class'], $class_expire_in,
-                              $this->attributes['passwd'], $this->attributes['port'],
-                              $this->attributes['method'],
-                              $this->attributes['protocol'], $this->attributes['obfs'],
-                              $this->online_ip_count(), $this->lastSsTime(),
-                              $used_traffic, $enable_traffic,
-                              $this->lastCheckInTime(), $today_traffic,
-                              $is_enable, $this->attributes['reg_date'],
-                              $reg_location,
-                              $this->attributes['auto_reset_day'], $this->attributes['auto_reset_bandwidth'],
-                              $ref_user_id, $ref_user_name);
+            $this->attributes['user_name'], $this->attributes['remark'],
+            $this->attributes['email'], $this->attributes['money'],
+            $im_type, $im_value,
+            $this->attributes['node_group'], $account_expire_in,
+            $this->attributes['class'], $class_expire_in,
+            $this->attributes['passwd'], $this->attributes['port'],
+            $this->attributes['method'],
+            $this->attributes['protocol'], $this->attributes['obfs'],
+            $this->online_ip_count(), $this->lastSsTime(),
+            $used_traffic, $enable_traffic,
+            $this->lastCheckInTime(), $today_traffic,
+            $is_enable, $this->attributes['reg_date'],
+            $reg_location,
+            $this->attributes['auto_reset_day'], $this->attributes['auto_reset_bandwidth'],
+            $ref_user_id, $ref_user_name);
         return $return_array;
     }
 }

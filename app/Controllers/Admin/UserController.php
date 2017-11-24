@@ -18,18 +18,18 @@ class UserController extends AdminController
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "user_name" => "用户名",
-                            "remark" => "备注", "email" => "邮箱", "money" => "金钱",
-                            "im_type" => "联络方式类型", "im_value" => "联络方式详情",
-                            "node_group" => "群组", "account_expire_in" => "账户过期时间",
-                            "class" => "等级", "class_expire" => "等级过期时间",
-                            "passwd" => "连接密码","port" => "连接端口", "method" => "加密方式",
-                            "protocol" => "连接协议", "obfs" => "连接混淆方式",
-                            "online_ip_count" => "在线IP数", "last_ss_time" => "上次使用时间",
-                            "used_traffic" => "已用流量/GB", "enable_traffic" => "总流量/GB",
-                            "last_checkin_time" => "上次签到时间", "today_traffic" => "今日流量/MB",
-                            "is_enable" => "是否启用", "reg_date" => "注册时间",
-                            "reg_location" => "注册IP", "auto_reset_day" => "自动重置流量日",
-                            "auto_reset_bandwidth" => "自动重置流量/GB", "ref_by" => "邀请人ID", "ref_by_user_name" => "邀请人用户名");
+            "remark" => "备注", "email" => "邮箱", "money" => "金钱",
+            "im_type" => "联络方式类型", "im_value" => "联络方式详情",
+            "node_group" => "群组", "account_expire_in" => "账户过期时间",
+            "class" => "等级", "class_expire" => "等级过期时间",
+            "passwd" => "连接密码","port" => "连接端口", "method" => "加密方式",
+            "protocol" => "连接协议", "obfs" => "连接混淆方式",
+            "online_ip_count" => "在线IP数", "last_ss_time" => "上次使用时间",
+            "used_traffic" => "已用流量/GB", "enable_traffic" => "总流量/GB",
+            "last_checkin_time" => "上次签到时间", "today_traffic" => "今日流量/MB",
+            "is_enable" => "是否启用", "reg_date" => "注册时间",
+            "reg_location" => "注册IP", "auto_reset_day" => "自动重置流量日",
+            "auto_reset_bandwidth" => "自动重置流量/GB", "ref_by" => "邀请人ID", "ref_by_user_name" => "邀请人用户名");
         $table_config['default_show_column'] = array("op", "id", "user_name", "remark", "email");
         $table_config['ajax_url'] = 'user/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/user/index.tpl');
@@ -187,6 +187,7 @@ class UserController extends AdminController
         $user->node_group = $request->getParam('group');
         $user->ref_by = $request->getParam('ref_by');
         $user->remark = $request->getParam('remark');
+        $user->money = $request->getParam('money');
         $user->class = $request->getParam('class');
         $user->class_expire = $request->getParam('class_expire');
         $user->expire_in = $request->getParam('expire_in');

@@ -72,6 +72,8 @@ $app->get('/404', 'App\Controllers\HomeController:page404');
 $app->get('/405', 'App\Controllers\HomeController:page405');
 $app->get('/500', 'App\Controllers\HomeController:page500');
 $app->get('/pwm_pingback', 'App\Controllers\HomeController:pay_callback');
+$app->get('/pay91', 'App\Controllers\HomeController:pay_callback');
+$app->post('/notify', 'App\Controllers\HomeController:notify');
 $app->post('/alipay_callback', 'App\Controllers\HomeController:pay_callback');
 $app->post('/pay_callback', 'App\Controllers\HomeController:pay_callback');
 $app->get('/pay_callback', 'App\Controllers\HomeController:pay_callback');
@@ -137,6 +139,7 @@ $app->group('/user', function () {
     $this->get('/logout', 'App\Controllers\UserController:logout');
     $this->get('/code', 'App\Controllers\UserController:code');
     $this->get('/alipay', 'App\Controllers\UserController:alipay');
+    $this->get('/code/pay91', 'App\Controllers\pay91');
     $this->post('/code/f2fpay', 'App\Controllers\UserController:f2fpay');
     $this->get('/code/f2fpay', 'App\Controllers\UserController:f2fpayget');
     $this->get('/code_check', 'App\Controllers\UserController:code_check');
@@ -249,10 +252,12 @@ $app->group('/admin', function () {
     $this->post('/auto/ajax', 'App\Controllers\Admin\AutoController:ajax');
 
     // IP Mange
+    $this->get('/alive', 'App\Controllers\Admin\IpController:alive');
     $this->get('/block', 'App\Controllers\Admin\IpController:block');
     $this->get('/unblock', 'App\Controllers\Admin\IpController:unblock');
     $this->post('/unblock', 'App\Controllers\Admin\IpController:doUnblock');
     $this->get('/login', 'App\Controllers\Admin\IpController:index');
+    $this->post('/alive/ajax', 'App\Controllers\Admin\IpController:ajax_alive');
     $this->post('/block/ajax', 'App\Controllers\Admin\IpController:ajax_block');
     $this->post('/unblock/ajax', 'App\Controllers\Admin\IpController:ajax_unblock');
     $this->post('/login/ajax', 'App\Controllers\Admin\IpController:ajax_login');
